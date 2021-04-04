@@ -14,8 +14,13 @@ public:
 protected:
     void paintEvent(QPaintEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+    //void mouseClickEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+    void mousePressEvent(QMouseEvent *) override;
 private:
+    QVector<QRect> rectangels;
     QString pathToPhoto;
+    bool isPaintStatus;
 };
 
 #endif // PHOTOWIDGET_H
