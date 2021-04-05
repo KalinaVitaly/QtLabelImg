@@ -14,6 +14,7 @@ SOURCES += \
     mainwindow.cpp \
     paintgraphicview.cpp \
     photowidget.cpp \
+    qpixmapitem.cpp \
     workwithfiles.cpp
 
 HEADERS += \
@@ -21,6 +22,7 @@ HEADERS += \
     mainwindow.h \
     paintgraphicview.h \
     photowidget.h \
+    qpixmapitem.h \
     workwithfiles.h
 
 FORMS += \
