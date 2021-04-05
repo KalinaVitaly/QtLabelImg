@@ -12,35 +12,43 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    scene(new QGraphicsScene(this))
+    view(new PaintGraphicView(this))
 {
     ui->setupUi(this);
-    ui->graphicsView->setScene(scene);
-    //pixItem = scene->addPixmap(QPixmap("C:/Users/v.kalina/Desktop/yolov5/train_data/images/train/1.jpg"));
+    ui->horizontalLayout->addWidget(view);
     QMenu *file = menuBar()->addMenu("File");
     QAction *openDir = new QAction("Open", this);
+    QAction *savePixmap = new QAction("Save", this);
     file->addAction(openDir);
+    file->addAction(savePixmap);
     connect(openDir, &QAction::triggered, this, &MainWindow::OpenQFileDialog);
+}
+
+void MainWindow::OpenQFileDialogToSavePixmap()
+{
+
 }
 
 void MainWindow::OpenQFileDialog()
 {
-    filePath = QFileDialog::getExistingDirectory(this, "Open dir",QDir::homePath());
+    dirPath = QFileDialog::getExistingDirectory(this, "Open dir",QDir::homePath());
     setFilesInListWidget();
     //qDebug() << "FileDialog: " << dirPath;
 }
 
 void MainWindow::setFilesInListWidget()
 {
-    QStringList list = WorkWithFiles::getDirictoryContent(filePath);
+    QStringList list = WorkWithFiles::getDirictoryContent(dirPath);
+    QStringList pixmapList;
+    pixmapList << list.filter(".jpg") << list.filter(".png");
     ui->listFiles->clear();
-    ui->listFiles->addItems(list);
+    ui->listFiles->addItems(pixmapList);
 }
 
 void MainWindow::ItemDoubleClicked(QListWidgetItem *item)
 {
-    QString pathToPixmap = filePath + "/" + item->text();
-    pixItem = scene->addPixmap(QPixmap(pathToPixmap));
+    pathToPixmap = dirPath + "/" + item->text();
+    view->setPixmap(QPixmap(pathToPixmap));
 }
 
 MainWindow::~MainWindow()

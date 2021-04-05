@@ -12,12 +12,14 @@ SOURCES += \
     dialog.cpp \
     main.cpp \
     mainwindow.cpp \
+    paintgraphicview.cpp \
     photowidget.cpp \
     workwithfiles.cpp
 
 HEADERS += \
     dialog.h \
     mainwindow.h \
+    paintgraphicview.h \
     photowidget.h \
     workwithfiles.h
 

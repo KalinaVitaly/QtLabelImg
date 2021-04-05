@@ -3,8 +3,10 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 #include <QListWidgetItem>
+#include "paintgraphicview.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,14 +22,16 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QString filePath;
-    QGraphicsScene *scene;
-    QGraphicsPixmapItem *pixItem;
+    QString dirPath;
+    QString pathToPixmap;
+    PaintGraphicView *view;
+    QPoint point;
 private:
     void setFilesInListWidget();
 
 private slots:
     void OpenQFileDialog();
+    void OpenQFileDialogToSavePixmap();
     void ItemDoubleClicked(QListWidgetItem *);
 };
 
