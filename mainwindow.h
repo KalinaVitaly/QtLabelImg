@@ -2,26 +2,33 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "workwithfiles.h"
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QListWidgetItem>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+namespace Ui {
+class MainWindow;
+}
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
-protected slots:
-    void OnSearchButtonClicked();
 
 private:
     Ui::MainWindow *ui;
+    QString filePath;
+    QGraphicsScene *scene;
+    QGraphicsPixmapItem *pixItem;
+private:
+    void setFilesInListWidget();
 
-    QString PathToDir;
+private slots:
+    void OpenQFileDialog();
+    void ItemDoubleClicked(QListWidgetItem *);
 };
+
 #endif // MAINWINDOW_H
