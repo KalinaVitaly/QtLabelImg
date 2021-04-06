@@ -1,12 +1,19 @@
 #ifndef QPIXMAPITEM_H
 #define QPIXMAPITEM_H
 
-#include <QGraphicsPixmapItem>
+#include <QGraphicsItem>
 
-class QPixMapItem : public QGraphicsPixmapItem
+class QPixMapItem : public QObject, public QGraphicsPixmapItem
 {
+    Q_OBJECT
 public:
-    QPixMapItem(QGraphicsItem *parent = nullptr);
+    explicit QPixMapItem(QObject *parent = nullptr);
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+
+signals:
+    void sendPoint(QPointF);
 };
 
 #endif // QPIXMAPITEM_H

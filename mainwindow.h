@@ -12,7 +12,7 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class MainWindow final : public QMainWindow
 {
     Q_OBJECT
 
@@ -22,17 +22,17 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QString dirPath;
+    QString pathToDir;
     QString pathToPixmap;
     PaintGraphicView *view;
-    QPoint point;
 private:
     void setFilesInListWidget();
-
+    void SavePointInFile();
 private slots:
     void OpenQFileDialog();
-    void OpenQFileDialogToSavePixmap();
     void ItemDoubleClicked(QListWidgetItem *);
+    void SetNextItem();
+    void SetBackItem();
 };
 
 #endif // MAINWINDOW_H

@@ -1,5 +1,7 @@
 #include "workwithfiles.h"
 #include <QDebug>
+#include <QTextStream>
+#include <QPoint>
 
 QStringList WorkWithFiles::getDirictoryContent(const QString& path)
 {
@@ -7,7 +9,8 @@ QStringList WorkWithFiles::getDirictoryContent(const QString& path)
     QFileInfoList list;
     QStringList stringList;
 
-    if (!dir.exists()) {
+    if (!dir.exists())
+    {
         qWarning("The directory does not exist");
         exit(1);
     }
@@ -19,7 +22,21 @@ QStringList WorkWithFiles::getDirictoryContent(const QString& path)
     {
         QString name = finfo.fileName();
         stringList.append(name);
-        //qDebug() << name;
     }
     return stringList;
+}
+
+void WorkWithFiles::savePointToTXTFile(const QString &path, const QString &pixmapName, const QPointF& data)
+{
+    //qDebug() << path + "/" + pixmapName.leftRef(pixmapName.lastIndexOf(".")) + ".txt";
+    QFile file(path + "/" + pixmapName.leftRef(pixmapName.lastIndexOf(".")) + ".txt");
+
+    if (file.open(QIODevice::WriteOnly))
+    {
+        QTextStream out(&file);
+        out << pixmapName << "\n";
+        out << "x: " << data.x() << " y: " << data.y();
+    }
+
+    file.close();
 }

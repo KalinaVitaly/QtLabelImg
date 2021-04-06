@@ -11,34 +11,54 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    view(new PaintGraphicView(this))
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->horizontalLayout->addWidget(view);
     QMenu *file = menuBar()->addMenu("File");
     QAction *openDir = new QAction("Open", this);
-    QAction *savePixmap = new QAction("Save", this);
     file->addAction(openDir);
-    file->addAction(savePixmap);
     connect(openDir, &QAction::triggered, this, &MainWindow::OpenQFileDialog);
 }
 
-void MainWindow::OpenQFileDialogToSavePixmap()
+void MainWindow::SetBackItem()
 {
+    if(ui->listFiles->currentRow() > 0)
+    {
+        ui->listFiles->setCurrentRow(ui->listFiles->currentRow() - 1);
+        pathToPixmap = pathToDir + "/" + ui->listFiles->currentItem()->text();
+        ui->graphicsView->setPixmap(QPixmap(pathToPixmap));
+    }
+}
 
+void MainWindow::SetNextItem()
+{
+    if(ui->listFiles->count() > ui->listFiles->currentRow() + 1)
+    {
+        ui->listFiles->setCurrentRow(ui->listFiles->currentRow() + 1);
+        pathToPixmap = pathToDir + "/" + ui->listFiles->currentItem()->text();
+        ui->graphicsView->setPixmap(QPixmap(pathToPixmap));
+    }
+    SavePointInFile();
+}
+
+void MainWindow::SavePointInFile()
+{
+    if (!pathToDir.isEmpty())
+    {
+        WorkWithFiles::savePointToTXTFile(pathToDir, ui->listFiles->currentItem()->text(),
+                                          ui->graphicsView->getPoint());
+    }
 }
 
 void MainWindow::OpenQFileDialog()
 {
-    dirPath = QFileDialog::getExistingDirectory(this, "Open dir",QDir::homePath());
+    pathToDir = QFileDialog::getExistingDirectory(this, "Open dir", QDir::homePath());
     setFilesInListWidget();
-    //qDebug() << "FileDialog: " << dirPath;
 }
 
 void MainWindow::setFilesInListWidget()
 {
-    QStringList list = WorkWithFiles::getDirictoryContent(dirPath);
+    QStringList list = WorkWithFiles::getDirictoryContent(pathToDir);
     QStringList pixmapList;
     pixmapList << list.filter(".jpg") << list.filter(".png");
     ui->listFiles->clear();
@@ -47,8 +67,8 @@ void MainWindow::setFilesInListWidget()
 
 void MainWindow::ItemDoubleClicked(QListWidgetItem *item)
 {
-    pathToPixmap = dirPath + "/" + item->text();
-    view->setPixmap(QPixmap(pathToPixmap));
+    pathToPixmap = pathToDir + "/" + item->text();
+    ui->graphicsView->setPixmap(QPixmap(pathToPixmap));
 }
 
 MainWindow::~MainWindow()

@@ -5,7 +5,7 @@
 #include <QFileInfo>
 #include <QDir>
 
-class WorkWithFiles : public QObject
+class WorkWithFiles final : public QObject
 {
     Q_OBJECT
 public:
@@ -14,6 +14,7 @@ public:
     WorkWithFiles& operator=(const WorkWithFiles&) = delete;
 
     static QStringList getDirictoryContent(const QString&);
+    static void savePointToTXTFile(const QString &, const QString &, const QPointF&);
 
 };
 
