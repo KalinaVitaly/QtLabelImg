@@ -26,7 +26,7 @@ private:
     QString pathToPixmap;
     PaintGraphicView *view;
 private:
-    void setFilesInListWidget();
+    void SetFilesInListWidget(QListWidget *);
     void SavePointInFile();
 private slots:
     void OpenQFileDialog();

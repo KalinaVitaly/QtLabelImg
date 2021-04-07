@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *openDir = new QAction("Open", this);
     file->addAction(openDir);
     connect(openDir, &QAction::triggered, this, &MainWindow::OpenQFileDialog);
+
+    ui->radioButton->setChecked(true);
 }
 
 void MainWindow::SetBackItem()
@@ -28,8 +30,8 @@ void MainWindow::SetBackItem()
         ui->listFiles->setCurrentRow(ui->listFiles->currentRow() - 1);
         pathToPixmap = pathToDir + "/" + ui->listFiles->currentItem()->text();
         ui->graphicsView->setPixmap(QPixmap(pathToPixmap));
-        ui->graphicsView->DeletePointItem();
     }
+    ui->graphicsView->DeletePointItem();
     ui->graphicsView->SetIsPointSet(false);
 }
 
@@ -43,8 +45,8 @@ void MainWindow::SetNextItem()
             if(ui->listFiles->count() > ui->listFiles->currentRow() + 1)
             {
                 ui->listFiles->setCurrentRow(ui->listFiles->currentRow() + 1);
-                ui->graphicsView->DeletePointItem();
             }
+            ui->graphicsView->DeletePointItem();
             ui->graphicsView->SetIsPointSet(false);
         }
         else
@@ -58,7 +60,7 @@ void MainWindow::SetNextItem()
 
 void MainWindow::SavePointInFile()
 {
-    if (!pathToDir.isEmpty() && !pathToPixmap.isEmpty())
+    if (!pathToPixmap.isEmpty())
     {
         WorkWithFiles::savePointToTXTFile(pathToDir, ui->listFiles->currentItem()->text(),
                                           ui->graphicsView->getPoint());
@@ -67,17 +69,33 @@ void MainWindow::SavePointInFile()
 
 void MainWindow::OpenQFileDialog()
 {
-    pathToDir = QFileDialog::getExistingDirectory(this, "Open dir", QDir::homePath());
-    setFilesInListWidget();
+    if (ui->tabWidget->currentIndex() == 0)
+    {
+        pathToDir = QFileDialog::getExistingDirectory(this, "Open dir", QDir::homePath());
+        SetFilesInListWidget(ui->listFiles);
+    }
+    else if (ui->tabWidget->currentIndex() == 1)
+    {
+        if (ui->radioButton->isChecked())
+        {
+            pathToDir = QFileDialog::getExistingDirectory(this, "Open dir", QDir::homePath());
+            SetFilesInListWidget(ui->listFilesFirstTabSecond);
+        }
+        else if (ui->radioButton_2->isChecked())
+        {
+            pathToDir = QFileDialog::getExistingDirectory(this, "Open dir", QDir::homePath());
+            SetFilesInListWidget(ui->listFilesSecondTabSecond);
+        }
+    }
 }
 
-void MainWindow::setFilesInListWidget()
+void MainWindow::SetFilesInListWidget(QListWidget *lf)
 {
     QStringList list = WorkWithFiles::getDirictoryContent(pathToDir);
     QStringList pixmapList;
     pixmapList << list.filter(".jpg") << list.filter(".png");
-    ui->listFiles->clear();
-    ui->listFiles->addItems(pixmapList);
+    lf->clear();
+    lf->addItems(pixmapList);
 }
 
 void MainWindow::ItemDoubleClicked(QListWidgetItem *item)
