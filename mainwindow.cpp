@@ -35,20 +35,30 @@ void MainWindow::SetBackItem()
 
 void MainWindow::SetNextItem()
 {
-    SavePointInFile();
-    if(ui->listFiles->count() > ui->listFiles->currentRow() + 1)
+    if(ui->listFiles->count() > 0)
     {
-        ui->listFiles->setCurrentRow(ui->listFiles->currentRow() + 1);
+        if (ui->listFiles->currentRow() != -1)
+        {
+            SavePointInFile();
+            if(ui->listFiles->count() > ui->listFiles->currentRow() + 1)
+            {
+                ui->listFiles->setCurrentRow(ui->listFiles->currentRow() + 1);
+                ui->graphicsView->DeletePointItem();
+            }
+            ui->graphicsView->SetIsPointSet(false);
+        }
+        else
+        {
+            ui->listFiles->setCurrentRow(0);
+        }
         pathToPixmap = pathToDir + "/" + ui->listFiles->currentItem()->text();
         ui->graphicsView->setPixmap(QPixmap(pathToPixmap));
-        ui->graphicsView->DeletePointItem();
     }
-    ui->graphicsView->SetIsPointSet(false);
 }
 
 void MainWindow::SavePointInFile()
 {
-    if (!pathToDir.isEmpty())
+    if (!pathToDir.isEmpty() && !pathToPixmap.isEmpty())
     {
         WorkWithFiles::savePointToTXTFile(pathToDir, ui->listFiles->currentItem()->text(),
                                           ui->graphicsView->getPoint());
