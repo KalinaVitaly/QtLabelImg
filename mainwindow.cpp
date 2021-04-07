@@ -22,23 +22,28 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::SetBackItem()
 {
+    SavePointInFile();
     if(ui->listFiles->currentRow() > 0)
     {
         ui->listFiles->setCurrentRow(ui->listFiles->currentRow() - 1);
         pathToPixmap = pathToDir + "/" + ui->listFiles->currentItem()->text();
         ui->graphicsView->setPixmap(QPixmap(pathToPixmap));
+        ui->graphicsView->DeletePointItem();
     }
+    ui->graphicsView->SetIsPointSet(false);
 }
 
 void MainWindow::SetNextItem()
 {
+    SavePointInFile();
     if(ui->listFiles->count() > ui->listFiles->currentRow() + 1)
     {
         ui->listFiles->setCurrentRow(ui->listFiles->currentRow() + 1);
         pathToPixmap = pathToDir + "/" + ui->listFiles->currentItem()->text();
         ui->graphicsView->setPixmap(QPixmap(pathToPixmap));
+        ui->graphicsView->DeletePointItem();
     }
-    SavePointInFile();
+    ui->graphicsView->SetIsPointSet(false);
 }
 
 void MainWindow::SavePointInFile()
@@ -67,6 +72,8 @@ void MainWindow::setFilesInListWidget()
 
 void MainWindow::ItemDoubleClicked(QListWidgetItem *item)
 {
+    ui->graphicsView->DeletePointItem();
+    ui->graphicsView->SetIsPointSet(false);
     pathToPixmap = pathToDir + "/" + item->text();
     ui->graphicsView->setPixmap(QPixmap(pathToPixmap));
 }

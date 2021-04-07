@@ -33,6 +33,7 @@ void WorkWithFiles::savePointToTXTFile(const QString &path, const QString &pixma
 
     if (file.open(QIODevice::WriteOnly))
     {
+        qDebug() << pixmapName;
         QTextStream out(&file);
         out << pixmapName << "\n";
         out << "x: " << data.x() << " y: " << data.y();

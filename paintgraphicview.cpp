@@ -14,6 +14,10 @@ PaintGraphicView::PaintGraphicView(QWidget *parent)
     connect(pixmapItem, &QPixMapItem::sendPoint, this, &PaintGraphicView::setQPointF);
 }
 
+void PaintGraphicView::SetIsPointSet(bool _isPointSet)
+{
+    isPointSet = _isPointSet;
+}
 
 QPointF PaintGraphicView::getPoint()
 {
@@ -22,11 +26,12 @@ QPointF PaintGraphicView::getPoint()
 
 void PaintGraphicView::setPointToScene()
 {
-    if (pointItem != nullptr)
-    {
-        scene->removeItem(pointItem);
-        delete pointItem;
-    }
+//    if (pointItem != nullptr)
+//    {
+//        scene->removeItem(pointItem);
+//        delete pointItem;
+//    }
+    DeletePointItem();
     pointItem = scene->addEllipse(point.x(), point.y(),pointSize.first, pointSize.second,
                                   QPen(Qt::yellow), QBrush(Qt::yellow, Qt::SolidPattern));
     isPointSet = true;
@@ -61,6 +66,15 @@ void PaintGraphicView::wheelEvent(QWheelEvent *event)
         {
             resizePoint();
         }
+    }
+}
+
+void PaintGraphicView::DeletePointItem()
+{
+    if (pointItem != nullptr && isPointSet)
+    {
+        scene->removeItem(pointItem);
+        delete pointItem;
     }
 }
 
