@@ -7,6 +7,7 @@
 #include <QGraphicsPixmapItem>
 #include <QListWidgetItem>
 #include "paintgraphicview.h"
+#include "calculation.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,13 +25,18 @@ private:
     Ui::MainWindow *ui;
     QString pathToDir;
     QString pathToPixmap;
+    QString pathToTxtFile;
+    QString pathToFirstFile;
+    QString pathToSecondFile;
     PaintGraphicView *view;
+    Calculation *calc;
 private:
-    void SetFilesInListWidget(QListWidget *);
+    void SetFilesInListWidget(QListWidget *, const QStringList &, const QString &);
     void SavePointInFile();
 private slots:
     void OpenQFileDialog();
     void ItemDoubleClicked(QListWidgetItem *);
+    void CalculateClick();
     void SetNextItem();
     void SetBackItem();
 };

@@ -32,7 +32,7 @@
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QListWidget" name="listFiles">
+         <widget class="QListWidget" name="listFilesTabFirst">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -140,7 +140,7 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>20</width>
+              <width>10</width>
               <height>10</height>
              </size>
             </property>
@@ -154,13 +154,39 @@
            </widget>
           </item>
           <item>
+           <spacer name="verticalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>10</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>Вычислить</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="verticalSpacer_3">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>20</width>
+              <width>10</width>
               <height>40</height>
              </size>
             </property>
@@ -180,7 +206,7 @@
      <x>0</x>
      <y>0</y>
      <width>794</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -195,7 +221,39 @@
  <resources/>
  <connections>
   <connection>
-   <sender>listFiles</sender>
+   <sender>nextButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>SetNextItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>770</x>
+     <y>84</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>744</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>backButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>SetBackItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>770</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>777</x>
+     <y>416</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listFilesTabFirst</sender>
    <signal>itemDoubleClicked(QListWidgetItem*)</signal>
    <receiver>MainWindow</receiver>
    <slot>ItemDoubleClicked(QListWidgetItem*)</slot>
@@ -211,34 +269,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>nextButton</sender>
+   <sender>pushButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>SetNextItem()</slot>
+   <slot>CalculateClick()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>761</x>
-     <y>86</y>
+     <x>616</x>
+     <y>156</y>
     </hint>
     <hint type="destinationlabel">
-     <x>744</x>
-     <y>383</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>backButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>SetBackItem()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>739</x>
-     <y>131</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>777</x>
-     <y>416</y>
+     <x>788</x>
+     <y>218</y>
     </hint>
    </hints>
   </connection>
@@ -248,5 +290,7 @@
   <slot>SavePointInFile()</slot>
   <slot>SetNextItem()</slot>
   <slot>SetBackItem()</slot>
+  <slot>ItemDoubleClickedTab2FirstListWidget(QListWidgetItem*)</slot>
+  <slot>CalculateClick()</slot>
  </slots>
 </ui>

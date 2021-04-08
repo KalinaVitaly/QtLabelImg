@@ -28,7 +28,6 @@ QStringList WorkWithFiles::getDirictoryContent(const QString& path)
 
 void WorkWithFiles::savePointToTXTFile(const QString &path, const QString &pixmapName, const QPointF& data)
 {
-    //qDebug() << path + "/" + pixmapName.leftRef(pixmapName.lastIndexOf(".")) + ".txt";
     QFile file(path + "/" + pixmapName.leftRef(pixmapName.lastIndexOf(".")) + ".txt");
 
     if (file.open(QIODevice::WriteOnly))
@@ -40,4 +39,28 @@ void WorkWithFiles::savePointToTXTFile(const QString &path, const QString &pixma
     }
 
     file.close();
+}
+
+void WorkWithFiles::SaveDelta(const QString &, const QPointF&)
+{
+
+}
+
+QString WorkWithFiles::GetDataFromTXTFile(const QString &pathFile)
+{
+    QFile file(pathFile);
+    QTextStream in(&file);
+    QString line;
+
+    if (!file.open(QIODevice::ReadOnly)) {
+      qWarning("Cannot open file for reading");
+    }
+
+    while (!in.atEnd())
+    {
+      line += in.readLine();
+    }
+    //qDebug() << "GetDataFromTXTFile: " << line;
+    file.close();
+    return line;
 }

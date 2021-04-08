@@ -14,8 +14,9 @@ public:
     WorkWithFiles& operator=(const WorkWithFiles&) = delete;
 
     static QStringList getDirictoryContent(const QString&);
+    static QString GetDataFromTXTFile(const QString &);
     static void savePointToTXTFile(const QString &, const QString &, const QPointF&);
-
+    static void SaveDelta(const QString &, const QPointF&);
 };
 
 #endif // WORKWITHFILES_H
