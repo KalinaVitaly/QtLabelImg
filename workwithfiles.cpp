@@ -32,7 +32,6 @@ void WorkWithFiles::savePointToTXTFile(const QString &path, const QString &pixma
 
     if (file.open(QIODevice::WriteOnly))
     {
-        qDebug() << pixmapName;
         QTextStream out(&file);
         out << pixmapName << "\n";
         out << "x: " << data.x() << " y: " << data.y();
@@ -41,9 +40,18 @@ void WorkWithFiles::savePointToTXTFile(const QString &path, const QString &pixma
     file.close();
 }
 
-void WorkWithFiles::SaveDelta(const QString &, const QPointF&)
+void WorkWithFiles::SaveDelta(const QString &path, const QPair<QString, QPointF> &delta)
 {
+   QFile file(path);
 
+   if (file.open(QIODevice::WriteOnly))
+   {
+       QTextStream out(&file);
+       out << delta.first << "\n";
+       out << "x: " << delta.second.x() << " y: " << delta.second.y();
+   }
+
+   file.close();
 }
 
 QString WorkWithFiles::GetDataFromTXTFile(const QString &pathFile)

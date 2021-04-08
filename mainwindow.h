@@ -33,6 +33,7 @@ private:
 private:
     void SetFilesInListWidget(QListWidget *, const QStringList &, const QString &);
     void SavePointInFile();
+    void SetDataFromListWidgetToCalc(QListWidget *, const QString &, int);
 private slots:
     void OpenQFileDialog();
     void ItemDoubleClicked(QListWidgetItem *);

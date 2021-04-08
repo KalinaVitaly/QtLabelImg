@@ -109,23 +109,31 @@ void MainWindow::SetFilesInListWidget(QListWidget *lf, const QStringList & valid
     lf->addItems(pixmapList);
 }
 
+
+void MainWindow::SetDataFromListWidgetToCalc(QListWidget *list, const QString &path, int numberOfListWidget)
+{
+    for(int i = 0; i < list->count(); ++i)
+    {
+        list->setCurrentRow(i);
+        calc->SetData(WorkWithFiles::GetDataFromTXTFile(path + "/" + list->currentItem()->text()), numberOfListWidget);
+    }
+}
+
 void MainWindow::CalculateClick()
 {
-    for(int i = 0; i < ui->listFilesFirstTabSecond->count(); ++i)
-    {
-        ui->listFilesFirstTabSecond->setCurrentRow(i);
-        calc->SetData(WorkWithFiles::GetDataFromTXTFile(pathToFirstFile + "/" + ui->listFilesFirstTabSecond->currentItem()->text()), 0);
-    }
-    for(int i = 0; i < ui->listFilesSecondTabSecond->count(); ++i)
-    {
-        ui->listFilesSecondTabSecond->setCurrentRow(i);
-        calc->SetData(WorkWithFiles::GetDataFromTXTFile(pathToSecondFile + "/" + ui->listFilesSecondTabSecond->currentItem()->text()), 1);
-    }
+    SetDataFromListWidgetToCalc(ui->listFilesFirstTabSecond, pathToFirstFile, 0);
+    SetDataFromListWidgetToCalc(ui->listFilesSecondTabSecond, pathToSecondFile, 1);
     calc->CalculateDelta();
     //here
     QString pathToSaveDelta = QFileDialog::getExistingDirectory(this, "Save delta", QDir::homePath());
     QMap<QString, QPointF> delta = calc->GetDelta();
-    //WorkWithFiles::SaveDelta()
+    QList<QString> keys = delta.keys();
+
+    for(auto& i : keys)
+    {
+        WorkWithFiles::SaveDelta(pathToSaveDelta + "/" + i.left(i.indexOf(".")) + ".txt", QPair<QString, QPointF>(i, delta[i]));
+        //qDebug() << i << " " << i.left(i.indexOf("."));
+    }
     calc->WatchData();
 }
 

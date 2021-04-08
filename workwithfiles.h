@@ -16,7 +16,7 @@ public:
     static QStringList getDirictoryContent(const QString&);
     static QString GetDataFromTXTFile(const QString &);
     static void savePointToTXTFile(const QString &, const QString &, const QPointF&);
-    static void SaveDelta(const QString &, const QPointF&);
+    static void SaveDelta(const QString &, const QPair<QString, QPointF> &);
 };
 
 #endif // WORKWITHFILES_H
