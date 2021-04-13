@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QFileInfo>
 #include <QDir>
+#include "point.h"
 
 class WorkWithFiles final : public QObject
 {
@@ -16,6 +17,7 @@ public:
     static QStringList getDirictoryContent(const QString&);
     static QString GetDataFromTXTFile(const QString &);
     static void savePointToTXTFile(const QString &, const QString &, const QPointF&);
+    static void SavePointsInOneFile(const QPair<QString, Point>&, const QString&);
     static void SaveDelta(const QString &, const QPair<QString, QPointF> &);
 };
 

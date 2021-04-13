@@ -2,6 +2,7 @@
 #define QPIXMAPITEM_H
 
 #include <QGraphicsItem>
+#include <QWheelEvent>
 
 class QPixMapItem : public QObject, public QGraphicsPixmapItem
 {
@@ -10,10 +11,16 @@ public:
     explicit QPixMapItem(QObject *parent = nullptr);
 
 protected:
+    //void wheelEvent(QGraphicsSceneWheelEvent *event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void hoverMouseEvent(QGraphicsSceneHoverEvent *event) ;
 
 signals:
-    void sendPoint(QPointF);
+    void SendPoint(QPointF);
+    void SendCurrentCoordinate(QPointF);
+
+protected:
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
 };
 
 #endif // QPIXMAPITEM_H

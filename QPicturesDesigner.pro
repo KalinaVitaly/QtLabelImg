@@ -10,25 +10,22 @@ CONFIG += c++11
 
 SOURCES += \
     calculation.cpp \
-    dialog.cpp \
     main.cpp \
     mainwindow.cpp \
     paintgraphicview.cpp \
-    photowidget.cpp \
+    point.cpp \
     qpixmapitem.cpp \
     workwithfiles.cpp
 
 HEADERS += \
     calculation.h \
-    dialog.h \
     mainwindow.h \
     paintgraphicview.h \
-    photowidget.h \
+    point.h \
     qpixmapitem.h \
     workwithfiles.h
 
 FORMS += \
-    dialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.

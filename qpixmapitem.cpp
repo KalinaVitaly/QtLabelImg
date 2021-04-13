@@ -1,16 +1,23 @@
 #include "qpixmapitem.h"
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
+#include <QMouseEvent>
 
 QPixMapItem::QPixMapItem(QObject *parent)
-    : QObject(parent) {}
+    : QObject(parent)
+{
+    setAcceptHoverEvents(true);
+}
 
 void QPixMapItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        qDebug() << event->pos().x() << " " << event->pos().y();
-        emit sendPoint(event->pos());
+        emit SendPoint(event->pos());
     }
 }
 
+void QPixMapItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+{
+    emit SendCurrentCoordinate(event->pos());
+}

@@ -7,34 +7,45 @@
 #include <QGraphicsPixmapItem>
 #include <QWheelEvent>
 #include <QMouseEvent>
-
+#include "point.h"
 #include "qpixmapitem.h"
+#include <QTransform>
 
 class PaintGraphicView final : public QGraphicsView
 {
     Q_OBJECT
 public:
     explicit PaintGraphicView(QWidget *parent = nullptr);
+    ~PaintGraphicView();
 public:
-    void setPixmap(QPixmap);
-    QPointF getPoint();
-    void SetIsPointSet(bool);
-    void DeletePointItem();
+    void SetPixmap(const QString&, const QPixmap&);
+    void DeletePointItemFromScene();
+    void SetPoints(QMap<QString, Point>&);
+    QPointF GetCurrentPoint();
+    QPixMapItem *GetQPixMapItem();
+    QGraphicsScene* GetScene();
 protected:
     void wheelEvent(QWheelEvent *) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
 private:
     QPixMapItem *pixmapItem;
     QGraphicsScene *scene;
-    QGraphicsEllipseItem *pointItem;
     QPixmap picture;
-    QPointF point;
+    QGraphicsEllipseItem *pointItem;
     QPair<qreal, qreal> pointSize;
-    bool isPointSet;
+    QMap<QString, Point> *points;
+    QString pixmapName;
+    QTransform transformSystemCoordinate;
 private:
-    void setPointToScene();
-    void resizePoint();
+    void SetPointToScene();
+    void ResizePoint();
+    void ResizeAndSetQPixmapItem();
 private slots:
-    void setQPointF(QPointF);
+    void SetQPointF(QPointF);
+
+signals:
+    void SendPoint(QPointF);
+    void NextPixmap();
 };
 
 #endif // PAINTGRAPHICVIEW_H

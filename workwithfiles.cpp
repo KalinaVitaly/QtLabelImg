@@ -26,6 +26,20 @@ QStringList WorkWithFiles::getDirictoryContent(const QString& path)
     return stringList;
 }
 
+void WorkWithFiles::SavePointsInOneFile(const QPair<QString, Point>& data, const QString& pathToDir)
+{
+    QFile file(pathToDir + "/result.txt");
+
+    if (file.open(QIODevice::WriteOnly | QIODevice::Append))
+    {
+        QTextStream out(&file);
+        out << data.first << " x: " << data.second.GetPoint().x()
+            << " y: " << data.second.GetPoint().y() << "\n";
+    }
+
+    file.close();
+}
+
 void WorkWithFiles::savePointToTXTFile(const QString &path, const QString &pixmapName, const QPointF& data)
 {
     QFile file(path + "/" + pixmapName.leftRef(pixmapName.lastIndexOf(".")) + ".txt");
@@ -33,8 +47,7 @@ void WorkWithFiles::savePointToTXTFile(const QString &path, const QString &pixma
     if (file.open(QIODevice::WriteOnly))
     {
         QTextStream out(&file);
-        out << pixmapName << "\n";
-        out << "x: " << data.x() << " y: " << data.y();
+        out << pixmapName << " x: " << data.x() << " y: " << data.y();
     }
 
     file.close();
@@ -47,8 +60,7 @@ void WorkWithFiles::SaveDelta(const QString &path, const QPair<QString, QPointF>
    if (file.open(QIODevice::WriteOnly))
    {
        QTextStream out(&file);
-       out << delta.first << "\n";
-       out << "x: " << delta.second.x() << " y: " << delta.second.y();
+       out << delta.first << " x: " << delta.second.x() << " y: " << delta.second.y();
    }
 
    file.close();
@@ -66,9 +78,9 @@ QString WorkWithFiles::GetDataFromTXTFile(const QString &pathFile)
 
     while (!in.atEnd())
     {
-      line += in.readLine();
+      line += in.readLine() + "\n";
     }
-    //qDebug() << "GetDataFromTXTFile: " << line;
+
     file.close();
     return line;
 }

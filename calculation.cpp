@@ -11,13 +11,19 @@ QMap<QString, QPointF> Calculation::GetDelta()
     return delta;
 }
 
-QPair<QString, QPointF> Calculation::ParseData(const QString & data)
+QMap<QString, QPointF> Calculation::ParseData(const QString & data)
 {
-    QPair<QString, QPointF> result;
-    result.first = data.left(data.indexOf("x: "));
-    result.second.setX(data.mid(data.lastIndexOf("x: ") + 3, data.indexOf(" y:") - data.lastIndexOf("x: ") - 3).toDouble());
-    result.second.setY(data.mid(data.lastIndexOf("y: ") + 3, data.size() - data.lastIndexOf("x: ") - 3).toDouble());
-//    qDebug() << data << result.first << " " << " " << result.second.x() << " " << result.second.y();
+    QMap<QString, QPointF> result;
+    QPointF point;
+    QStringList lines = data.split(QLatin1Char('\n'), Qt::SkipEmptyParts, Qt::CaseInsensitive);
+
+    for(auto& i : lines)
+    {
+        point.setX(i.mid(i.lastIndexOf("x: ") + 3, i.indexOf(" y:") - i.lastIndexOf("x: ") - 3).toDouble());
+        point.setY(i.mid(i.lastIndexOf("y: ") + 3, i.size() - i.lastIndexOf("x: ") - 3).toDouble());
+        result[i.left(i.indexOf("x: ") - 1)] = point;
+    }
+
     return result;
 }
 
@@ -37,14 +43,14 @@ void Calculation::CalculateDelta()
 
 void Calculation::SetData(const QString & data, int numberOfListWidget)
 {
-    QPair<QString, QPointF> result = ParseData(data);
+    QMap<QString, QPointF> result = ParseData(data);
     if (numberOfListWidget == 0)
     {
-        DataFromFirstListWidget[result.first] = result.second;
+        DataFromFirstListWidget.insert(result);
     }
     else
     {
-        DataFromSecondListWidget[result.first] = result.second;
+        DataFromSecondListWidget.insert(result);
     }
 }
 
